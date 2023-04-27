@@ -35,6 +35,15 @@
   background-color: white;
 }
 
+.visuallyHidden {
+  clip: rect(0 0 0 0);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: no wrap;
+  width: 1px;
+}
+
 .nav ul {
   list-style: none;
 }

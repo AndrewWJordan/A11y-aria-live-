@@ -76,6 +76,7 @@ export default function AriaParent() {
           className={`${styles.center} ${styles.demo}`}
           aria-live="polite"
           aria-busy={isLoading}
+          id="demo"
         >
           {isLoading && <Loader />}
           {!isLoading && (

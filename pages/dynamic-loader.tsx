@@ -71,7 +71,7 @@ export default function DynamicLoader() {
           <Nav />
         </div>
 
-        <div className={`${styles.center} ${styles.demo}`}>
+        <div className={`${styles.center} ${styles.demo}`} id="demo">
           {isLoading && <Loader />}
           {!isLoading && (
             <div className={inter.className}>

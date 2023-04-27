@@ -62,7 +62,11 @@ export default function AriaParentWorking() {
           <Nav />
         </div>
 
-        <div className={`${styles.center} ${styles.demo}`} aria-live="polite">
+        <div
+          className={`${styles.center} ${styles.demo}`}
+          id="demo"
+          aria-live="polite"
+        >
           {isLoading && <Loader />}
           {!isLoading && (
             <div className={inter.className}>
