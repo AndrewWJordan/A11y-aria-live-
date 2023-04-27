@@ -6,15 +6,11 @@ import Nav from "../components/Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function DynamicLoader() {
+export default function AriaParent() {
   const [isLoading, setIsLoading] = useState(false);
 
   function Loader() {
-    return (
-      <div aria-live="polite" aria-busy={isLoading}>
-        Loading...
-      </div>
-    );
+    return <div>Loading...</div>;
   }
 
   function startLoader() {
@@ -29,7 +25,7 @@ export default function DynamicLoader() {
   return (
     <>
       <Head>
-        <title>Dynamic Loader Test w/ aria-live and aria-busy</title>
+        <title>aria-live and aria-busy on Parent Element</title>
         <meta
           name="description"
           content="Demonstrate more accessible ways to indicate loading and dynamic content updates"
@@ -38,22 +34,24 @@ export default function DynamicLoader() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1>The Problem With Dynamic Content</h1>
-        <small>And how to fix it</small>
+        <h1>aria-live and aria-busy on Parent Element</h1>
+        <small>Maybe this will work...</small>
         <div className={styles.mainWrapper}>
           <div>
             <p>
               This scenario demonstrates whether including{" "}
               <code>aria-live</code> and <code>aria-busy</code> on the{" "}
-              <em>loading component</em> will communicate the loading state as
-              we might expect. The short answer is <em>no</em>.{" "}
-              <code>aria-live</code> will announce changes to content, but{" "}
-              <code>aria-busy</code> tells the assistive technology to{" "}
-              <em>wait</em> on announcements until the <code>aria-busy</code>{" "}
-              attribute is set to <code>false</code>. This will <em>never</em>{" "}
-              happen because the <code>aria</code> attributes are included on
-              the loading element and this element is rendered and then removed
-              from the DOM when the loading state changes.
+              <em>parent element</em> will announce the loading state and
+              content updates as we might expect. The short answer is{" "}
+              <em>sort of</em>. <code>aria-live</code> will announce changes to
+              content, but again <code>aria-busy</code> tells the assistive
+              technology to <em>wait</em> on announcements until the{" "}
+              <code>aria-busy</code> attribute is set to <code>false</code>.
+              This <em>will</em> happen because the <code>aria</code> attributes
+              are included on the parent element, which is always present in the
+              DOM, and will therefore announce changes. However, keep in mind
+              that it will not announce the Loading state because of{" "}
+              <code>aria-busy</code>.
             </p>
 
             <h2>Expectations</h2>
@@ -63,22 +61,30 @@ export default function DynamicLoader() {
                 render
               </li>
               <li>
-                You should not hear any updates indicating the loading state or
-                the content update after clicking the button
+                You should not hear any updates indicating the loading state{" "}
+              </li>
+              <li>
+                You will hear the screen reader read the initial content again
+                when the loading state concludes
               </li>
             </ul>
           </div>
           <Nav />
         </div>
 
-        <div className={`${styles.center} ${styles.demo}`}>
+        <div
+          className={`${styles.center} ${styles.demo}`}
+          aria-live="polite"
+          aria-busy={isLoading}
+        >
           {isLoading && <Loader />}
           {!isLoading && (
             <div className={inter.className}>
               This is the loaded content. You should hear the screen reader
               announce this conent on the initial render, but not announce
-              anything after clicking the button to trigger the dynamic loader
-              component. This may not be a good solution.
+              anything until after the loading state is completed. This is still
+              not a good solution, as the user had no idea that something was
+              loading.
             </div>
           )}
         </div>

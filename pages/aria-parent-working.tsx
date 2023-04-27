@@ -6,15 +6,11 @@ import Nav from "../components/Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function DynamicLoader() {
+export default function AriaParentWorking() {
   const [isLoading, setIsLoading] = useState(false);
 
   function Loader() {
-    return (
-      <div aria-live="polite" aria-busy={isLoading}>
-        Loading...
-      </div>
-    );
+    return <div>Loading...</div>;
   }
 
   function startLoader() {
@@ -29,7 +25,7 @@ export default function DynamicLoader() {
   return (
     <>
       <Head>
-        <title>Dynamic Loader Test w/ aria-live and aria-busy</title>
+        <title>aria-live Only on Parent Element - A Working Example</title>
         <meta
           name="description"
           content="Demonstrate more accessible ways to indicate loading and dynamic content updates"
@@ -38,22 +34,16 @@ export default function DynamicLoader() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1>The Problem With Dynamic Content</h1>
-        <small>And how to fix it</small>
+        <h1>aria-live Only on Parent Element - A Working Example</h1>
+        <small>Now we&apos;re talking...</small>
         <div className={styles.mainWrapper}>
           <div>
             <p>
-              This scenario demonstrates whether including{" "}
-              <code>aria-live</code> and <code>aria-busy</code> on the{" "}
-              <em>loading component</em> will communicate the loading state as
-              we might expect. The short answer is <em>no</em>.{" "}
-              <code>aria-live</code> will announce changes to content, but{" "}
-              <code>aria-busy</code> tells the assistive technology to{" "}
-              <em>wait</em> on announcements until the <code>aria-busy</code>{" "}
-              attribute is set to <code>false</code>. This will <em>never</em>{" "}
-              happen because the <code>aria</code> attributes are included on
-              the loading element and this element is rendered and then removed
-              from the DOM when the loading state changes.
+              This scenario demonstrates whether including only{" "}
+              <code>aria-live</code> on the <em>parent element</em> will
+              announce the loading state and content updates as we might expect.
+              The short answer is <em>yes</em>. <code>aria-live</code> will
+              announce all changes to content within this element.
             </p>
 
             <h2>Expectations</h2>
@@ -62,23 +52,25 @@ export default function DynamicLoader() {
                 The screen reader should read out this content on the initial
                 render
               </li>
+              <li>You should hear an update indicating the loading state </li>
               <li>
-                You should not hear any updates indicating the loading state or
-                the content update after clicking the button
+                You will hear the screen reader read the initial content again
+                when the loading state concludes
               </li>
             </ul>
           </div>
           <Nav />
         </div>
 
-        <div className={`${styles.center} ${styles.demo}`}>
+        <div className={`${styles.center} ${styles.demo}`} aria-live="polite">
           {isLoading && <Loader />}
           {!isLoading && (
             <div className={inter.className}>
               This is the loaded content. You should hear the screen reader
-              announce this conent on the initial render, but not announce
-              anything after clicking the button to trigger the dynamic loader
-              component. This may not be a good solution.
+              announce this conent on the initial render, the loading state, and
+              read the content again after the loading state concludes. This, in
+              my opinion, is a good solution, as the user had an idea that
+              something was loading and the new content was announced.
             </div>
           )}
         </div>
