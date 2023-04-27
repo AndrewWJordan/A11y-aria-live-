@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Nav() {
   return (
     <nav className={`${styles.nav} ${inter.className}`}>
+      <Link href="#demo" className={styles.visuallyHidden}>
+        Skip to content
+      </Link>
       <h2>Examples</h2>
       <ul>
         <li>

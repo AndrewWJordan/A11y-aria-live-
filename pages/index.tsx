@@ -58,7 +58,7 @@ export default function Home() {
           <Nav />
         </div>
 
-        <div className={`${styles.center} ${styles.demo}`}>
+        <div className={`${styles.center} ${styles.demo}`} id="demo">
           {isLoading ? (
             <p className={inter.className}>Loading...</p>
           ) : (
